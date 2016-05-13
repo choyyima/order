@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Procurement Information Center</title>
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="assets/css/form-elements.css">
+        <link rel="stylesheet" href="assets/css/style.css">
+
+        <!-- Favicon and touch icons -->
+        <link rel="shortcut icon" href="assets/ico/favicon.png">
+
+    </head>
+
+    <body>
+        <!-- Top content -->
+        <div class="top-content">
+
+            <div class="inner-bg">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-6 text">
+                            <h2><strong>Welcome </strong> to <br/></h2><h1><strong>Procurement Information Center</strong></h1>
+                            <div class="description">
+                                <h3>
+                                    <strong>Internal Use Only</strong>
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="col-sm-5 form-box">
+                            <div class="form-top">
+                                <div class="form-top-left">
+                                    <h3>Sign In to our App</h3>
+                                    <p>Fill in the form below to get instant access:</p>
+                                </div>
+                                <div class="form-top-right">
+                                    <i class="fa fa-pencil"></i>
+                                </div>
+                            </div>
+                            <div class="form-bottom">
+                                <form role="form" action="" method="post" name="forms" class="registration-form">
+                                    <div class="err" id="add_err"></div> 
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-username">Username</label>
+                                        <input type="text" name="form-username" placeholder="Username..." class="form-username form-control" id="name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-password">Password</label>
+                                        <input type="password" name="form-password" placeholder="Password..." class="form-password form-control" id="word">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="checkbox" name="check" value="" class="" id="check"> I agree to the Procurement Information Center Terms and Privacy Policy                                        
+                                        <div class="error" id="error"></div> 
+                                    </div>
+                                    <div class="loading" id="loading"></div> <button type="submit" class="btn" name="login" id="login">Sign me in!</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- Javascript -->
+        <script src="assets/js/jquery-1.11.1.min.js"></script>
+        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="assets/js/jquery.backstretch.min.js"></script>
+        <script src="assets/js/retina-1.1.0.min.js"></script>
+        <script src="assets/js/scripts.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                $("#add_err").css('display', 'none', 'important');
+                $("#login").click(function () {
+                    username = $('#name').val().toLowerCase();
+                    password = $("#word").val();
+                    checkbox = $("#check").is(":checked");
+                    $.ajax({
+                        type: "POST",
+                        url: "login.php",
+                        data: "username=" + username + "&password=" + password,
+                        success: function (html) {
+                            if (html === 'true' && checkbox === true) {
+                                window.location = "index.php";
+                            } else {
+                                if (html === 'false') {
+                                    $("#add_err").css('display', 'inline', 'important');
+                                    $("#add_err").html("<p style='color: red; font-size: 14px;'>Wrong username or password </p>");
+                                } else if (checkbox === false) {
+                                    $("#error").css('display', 'inline', 'important');
+                                    $("#error").html("<p style='color: red; font-size: 14px;'>In order to use our services, you must agree to Procurement Information Center's Terms of Service.</p>");
+                                }
+                            }
+                        },
+                        beforeSend: function ()
+                        {
+                            $("#loading").css('display', 'inline', 'important');
+                            $("#loading").html(" Loading...");
+                        }
+                    });
+                    return false;
+                });
+            });
+        </script>
+
+    </body>
+
+</html>
