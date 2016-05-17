@@ -52,7 +52,7 @@ if (isset($_GET['page'])) {
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $query = mysql_query("SELECT id,DATE_FORMAT(tanggal_order,'%d %b %Y') pesan,flag, no_sms, pemesan, nama_proyek, item, qty, satuan, DATE_FORMAT(tanggal_proses,'%d %b %Y') proses, no_po, vendor, DATE_FORMAT(estimasi,'%d %b %Y') kirim, cp FROM purchasing ORDER BY tanggal_order DESC, no_sms DESC limit 0,5");
+                                        $query = mysql_query("SELECT id,DATE_FORMAT(tanggal_order,'%d %b %Y') pesan,flag, no_sms, pemesan, nama_proyek, item, qty, satuan, DATE_FORMAT(tanggal_proses,'%d %b %Y') proses, no_po, vendor, DATE_FORMAT(estimasi,'%d %b %Y') kirim, cp FROM purchasing ORDER BY tanggal_order DESC, no_sms DESC");
                                         $total = mysql_num_rows($query);
 
                                         $no = 1;
@@ -121,7 +121,7 @@ if (isset($_GET['page'])) {
                                         <div class="col-lg-3">
                                             <div class="form-group">
                                                 <label>Time / Jam SMS</label>
-                                                <input type="time" name="jam_sms" class="form-control">
+                                                <input type="text" name="jam_sms" class="form-control">
                                             </div>
                                         </div>    
                                         <div class="col-lg-3">
@@ -256,17 +256,17 @@ if (isset($_GET['page'])) {
             </ul>
             <div class="row">
                 <div class="col-sm-12 col-md-12">
-        <?php
-        $gets = $_GET;
-        $id = $gets['id'];
-        $sql = mysql_query("Select * From purchasing where id = '$id'");
-        $rows = mysql_fetch_array($sql);
-        if ($get['uName'] == 'admin') {
-            $active = "";
-        } else if ($get['uName'] == 'lani') {
-            $active = "readonly";
-        }
-        ?>
+                    <?php
+                    $gets = $_GET;
+                    $id = $gets['id'];
+                    $sql = mysql_query("Select * From purchasing where id = '$id'");
+                    $rows = mysql_fetch_array($sql);
+                    if ($get['uName'] == 'admin') {
+                        $active = "";
+                    } else if ($get['uName'] == 'lani') {
+                        $active = "readonly";
+                    }
+                    ?>
 
                     <br/>
 
@@ -286,7 +286,7 @@ if (isset($_GET['page'])) {
                                             <div class="col-lg-3">
                                                 <div class="form-group">
                                                     <label>Time / Jam SMS</label>
-                                                    <input type="time" name="jam_sms" value="<?php echo $rows['jam_sms']; ?>" class="form-control" readonly="">
+                                                    <input type="text" name="jam_sms" value="<?php echo $rows['jam_sms']; ?>" class="form-control" readonly="">
                                                 </div>
                                             </div>    
                                             <div class="col-lg-3">
@@ -317,16 +317,16 @@ if (isset($_GET['page'])) {
                                             <div class="col-lg-4">                                        
                                                 <div class="form-group">
                                                     <label>Status</label>
-        <?php
-        $cheked = "";
-        if ($rows['status_pic'] === 'Waiting Approval Director') {
-            $checked = 'checked';
-        } else if ($rows['status_pic'] === 'Waiting Approval Director') {
-            $checked = 'checked';
-        } else if ($rows['status_pic'] === 'PO') {
-            $checked = 'checked';
-        }
-        ?>
+                                                    <?php
+                                                    $cheked = "";
+                                                    if ($rows['status_pic'] === 'Waiting Approval Director') {
+                                                        $checked = 'checked';
+                                                    } else if ($rows['status_pic'] === 'Waiting Approval Director') {
+                                                        $checked = 'checked';
+                                                    } else if ($rows['status_pic'] === 'PO') {
+                                                        $checked = 'checked';
+                                                    }
+                                                    ?>
                                                     <select name="status_pic" class="form-control">
                                                         <option value="Waiting For Quotation" <?php echo $checked; ?>>Waiting For Quotation</option>
                                                         <option value="Waiting Approval Director" <?php echo $checked; ?>>Waiting Approval Director</option>
@@ -348,7 +348,7 @@ if (isset($_GET['page'])) {
                                                             <div class="col-lg-2">
                                                                 <div class="form-group">
                                                                     <label>Qty</label>
-                                                                    <input type="text" name="qty" value="<?php echo $rows['qty']; ?>" class="form-control" readonly="">
+                                                                    <input type="text" name="qty" id="qty" value="<?php echo $rows['qty']; ?>" class="form-control" readonly="">
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-2">
@@ -417,7 +417,7 @@ if (isset($_GET['page'])) {
                                             <div class="col-lg-3">                                    
                                                 <div class="form-group">
                                                     <label>Jatuh Tempo</label>
-                                                    <input type="date" name="tempo" value="<?php echo $rows['tempo']; ?>" class="form-control">
+                                                    <input type="date" name="tempo" value="<?php echo $rows['tanggal_tempo']; ?>" class="form-control">
                                                 </div>
                                             </div>
 
@@ -425,43 +425,62 @@ if (isset($_GET['page'])) {
                                                 <div class="panel" style="border-color: #337ab7;">
                                                     <div class="panel-heading" style="background: #337ab7; border-color: #337ab7; color: white;">Finance</div>
                                                     <div id="widget1container" class="panel-body collapse in">
-                                                        <div class="box-body table-responsive">
-                                                            <!--                                                                <div class="col-lg-12">      
-                                                                                                                                <div class="form-group col-lg-4">
-                                                                                                                                    <label>Harga Exc PPN</label>
-                                                                                                                                    <input type="text" name="harga" class="form-control" value="<?php echo $rows['item']; ?>">
-                                                                                                                                </div>
-                                                                                                                            </div>
-                                                                                                                            <div class="col-lg-12">       
-                                                                                                                                <div class="form-group col-lg-4">
-                                                                                                                                    <label>Harga Exc PPN</label>
-                                                                                                                                    <input type="text" name="harga" class="form-control" value="<?php echo $rows['item']; ?>">
-                                                                                                                                </div>
-                                                                                                                            </div>-->
+                                                        <div class="box-body table-responsive col-lg-6">
                                                             <table class="table table-bordered table-striped">
-        <!--                                                                <thead>
-                                                                    <tr>
-                                                                        <th>Description</th>
-                                                                        <th>Date</th>
-                                                                        <th>Amount</th>
-                                                                    </tr>
-                                                                </thead>-->
                                                                 <tbody>
-                                                                    <tr>
-                                                                        <td style="text-align: right">Harga Exc PPN</td>
-                                                                        <td style="width: 200px"><input type="text" class="form-control" name="harga" style="text-align: right"></td>
+                                                                <thead>
+                                                                <th class="success" colspan="2">
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input type="radio" name="check" class="checkbox-inline" value="radio1" /> <strong>Include PPN</strong>
+                                                                    </label>
+                                                                </div>
+                                                                </th>
+                                                                </thead>
+                                                                <tr>
+                                                                    <td style="text-align: right">Harga</td>
+                                                                    <td style="width: 200px"><input type="text" onkeyup="autoComplete(this);
+                                                                            formatangka(this);" value="<?php echo $rows['harga_ppn']; ?>" disabled="true" id="harga" class="radio1 form-control" name="harga" style="text-align: right"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="text-align: right">PPN</td>
+                                                                    <td><input type="text" class="form-control" name="ppn" id="ppn" style="text-align: right" value="1.1" readonly=""></td>
+                                                                </tr>         
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+
+                                                        <div class="box-body table-responsive col-lg-6">
+                                                            <table class="table table-bordered table-striped">
+                                                                <tbody>
+                                                                <thead>
+                                                                <th class="danger" colspan="2">
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input type="radio" name="check" class="checkbox-inline" value="radio2" /> <strong>Non PPN</strong>
+                                                                    </label>
+                                                                </div>
+                                                                </th>
+                                                                </thead>
+                                                                <tr>
+                                                                    <td style="text-align: right">Harga</td>
+                                                                    <td style="width: 200px"><input type="text" onkeyup="autoComplete(this);
+                                                                            formatangka(this);" value="<?php echo $rows['harga']; ?>" disabled="true" id="harganoppn" class="radio2 form-control" name="harganoppn" style="text-align: right"></td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+
+                                                        <div class="box-body table-responsive col-lg-12">
+                                                            <table class="table table-bordered table-striped">
+                                                                <tbody>
+                                                                    <tr class="info">
+                                                                        <td style="text-align: right">Total Inc Qty</td>
+                                                                        <td><input type="text" class="form-control" id="total" name="total" value="<?php echo $rows['total']; ?>" style="text-align: right" readonly=""></td>
                                                                     </tr>
-                                                                    <tr>
-                                                                        <td style="text-align: right">PPN</td>
-                                                                        <td><input type="text" class="form-control" name="ppn" style="text-align: right" value="1.1" readonly=""></td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td style="text-align: right">Total Incl PPN</td>
-                                                                        <td><input type="text" class="form-control" name="total" style="text-align: right"></td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td style="text-align: right">TOTAL TAGIHAN</td>
-                                                                        <td><input type="text" class="form-control" id="subtotal" name="subtotal" style="text-align: right" readonly=""></td>
+                                                                    <tr class="info">
+                                                                        <td style="text-align: right">Subtotal</td>
+                                                                        <td style="width: 200px"><input type="text" value="<?php echo $rows['subtotal']; ?>" id="subtotal" class="form-control" name="harga" style="text-align: right" readonly=""></td>
                                                                     </tr>
                                                                 </tbody>
                                                             </table>
@@ -485,77 +504,117 @@ if (isset($_GET['page'])) {
         </div>
         <script type="text/javascript">
 
-            counter = 0;
-            $('#addPro').click(function (evt) {
-                var idSparepart = $('#sparepart').val();
-                if (idSparepart === '') {
-                    alert("Pilih salah satu");
-                } else {
-                    var dc3 = window.atob(idSparepart);
-                    var myarr3 = dc3.split("||");
-                    var id = myarr3[0];
-                    var nama = myarr3[1];
-                    var harga = myarr3[2];
-                    var masuk2 = $('#akses2_' + (id)).val();
-
-
-                    if (masuk2 === id) {
-                        //alert("Data yang Anda masukkan sudah ada pada list");
+            function formatangka(objek) {
+                a = objek.value;
+                b = a.replace(/[^\d]/g, "");
+                c = "";
+                panjang = b.length;
+                j = 0;
+                for (i = panjang; i > 0; i--) {
+                    j = j + 1;
+                    if (((j % 3) === 1) && (j !== 1)) {
+                        c = b.substr(i - 1, 1) + "," + c;
                     } else {
-                        var output = '<tr id="data_' + (counter) + '">' +
-                                '<td><input type="checkbox" /></td>' +
-                                '<td><input name="sparepart[detail][' + counter + '][nama_sparepart]" type="text" class="span2" id="spare" value="' + nama + '" readonly/>' +
-                                '<input name="sparepart[detail][' + counter + '][id_sparepart]" type="hidden" class="span2" value="' + id + '" id="akses2_' + id + '"/></td>' +
-                                '<td><input name="sparepart[detail][' + counter + '][harga_satuan]" type="text" class="span2" id="harga_' + id + '" value="' + harga + '" readonly/></td>' +
-                                '<td><input name="sparepart[detail][' + counter + '][kuantitas]" type="text" class="span2" id="kuantitas_' + id + '" onkeyup="autoComplete(' + id + ');"/></td>' +
-                                '<td><input name="sparepart[detail][' + counter + '][jumlah]" type="text" class="span2 txt" id="jumlah_' + id + '"/></td>' +
-                                '</tr>';
-
+                        c = b.substr(i - 1, 1) + c;
                     }
                 }
+                objek.value = c;
+            }
 
-                if ($('tr td', tbody2).length == 1) {
-                    tbody2.html('');
+            $(document).ready(function () {
+                $('input[type=radio][name=check]').click(function () {
+                    var related_class = $(this).val();
+                    $('.' + related_class).prop('disabled', false);
+
+                    $('input[type=radio][name=check]').not(':checked').each(function () {
+                        var other_class = $(this).val();
+                        $('.' + other_class).prop('disabled', true).val("0");
+                        $('#total').val("0");
+                        $('#subtotal').val("0");
+                    });
+                });
+            });
+
+            function autoComplete(value)
+            {
+                harga = Number(document.getElementById('harga').value.replace(/[^0-9\.]+/g, ""));
+                harganoppn = Number(document.getElementById('harganoppn').value.replace(/[^0-9\.]+/g, ""));
+                ppn = document.getElementById('ppn').value;
+                qty = document.getElementById('qty').value;
+
+                //ngitung harga + ppn
+                if (harga > 0) {
+                    jmlh = harga * ppn;
+                } else {
+                    jmlh = harga;
                 }
 
-                tbody2.append(output);
-                $('#jmlJualSparepart').show();
-                counter++;
+                //ngitung total ke subtotal    
+                if (jmlh > 0) {
+                    sub = jmlh * qty;
+                } else {
+                    sub = jmlh;
+                }
 
-                evt.preventDefault();
-            });</script>
+                //ngitung non ppn
+                if (harganoppn > 0) {
+                    subto = harganoppn * qty;
+                } else {
+                    subto = harganoppn;
+                }
+
+                var a = parseInt(jmlh);
+                var b = parseInt(sub);
+                var c = parseInt(subto);
+                var d = parseInt(harganoppn);
+                var aaa = number_format(a);
+                var bbb = number_format(b);
+                var ccc = number_format(c);
+                var ddd = number_format(harganoppn);
+                if (a !== 0) {
+                    document.getElementById("total").value = aaa;
+                    document.getElementById("subtotal").value = bbb;
+                } else if (c !== 0) {
+                    document.getElementById("total").value = ddd;
+                    document.getElementById("subtotal").value = ccc;
+                }
+
+            }
+
+        </script>
 
         <?php
         if (isset($_POST['save'])) {
-            $tgl_order = $_POST['tanggal_order'];
-            $no_sms = $_POST['no_sms'];
-            $pemesan = $_POST['pemesan'];
-            $flag = $_POST['flag'];
-            $nama_proyek = $_POST['nama_proyek'];
-            $item = $_POST['item'];
-            $qty = $_POST['qty'];
-            $satuan = $_POST['satuan'];
-            $tanggal_proses = $_POST['tanggal_proses'];
+            $datenow = date("Y-m-d h:i:s");
             $no_po = $_POST['no_po'];
+            $flag = $_POST['flag'];
+            $pengorder = $_POST['pengorder'];
+            $tempo = $_POST['tempo'];
             $vendor = $_POST['vendor'];
             $estimasi = $_POST['estimasi'];
             $cp = $_POST['cp'];
+            $harga_ppn = $_POST['harga_ppn'];
+            $harga = $_POST['harga'];
+            $total = $_POST['total'];
+            $subtotal = $_POST['subtotal'];
             $id = $gets['id'];
+            $updateby = $gets['uName'];
+            $updated = $datenow;
 
             $sql = "UPDATE `purchasing` SET "
-                    . "`tanggal_order`='$tgl_order', "
-                    . "`no_sms`='$no_sms', "
-                    . "`pemesan`='$pemesan', "
-                    . "`flag`='$flag', "
-                    . "`nama_proyek`='$nama_proyek', "
-                    . "`item`='$item', "
-                    . "`qty`='$qty', "
-                    . "`satuan`='$satuan', "
-                    . "`tanggal_proses`='$tanggal_proses', "
                     . "`no_po`='$no_po', "
+                    . "`flag`='$flag', "
+                    . "`pengorder`='$pengorder', "
+                    . "`tanggal_tempo`='$tempo', "
                     . "`vendor`='$vendor', "
                     . "`estimasi`='$estimasi', "
                     . "`cp`='$cp' "
+                    . "`harga_ppn`='$harga_ppn, "
+                    . "`harga`='$harga', "
+                    . "`total`='$total', "
+                    . "`subtotal`='$subtotal', "
+                    . "`updatedby`='$updateby', "
+                    . "`updated`='$updated', "
                     . "WHERE (`id`='$id')";
 // echo $sql;
 // die();
@@ -564,7 +623,7 @@ if (isset($_GET['page'])) {
 
             if ($result) {
                 echo "<script>alert('Berhasil dirubah.')</script>";
-                echo "<script type='text/javascript'>document.location='./index.php?pic=checkdata&page=view'; </script>";
+                echo "<script type='text/javascript'>document.location='./index.php?pic=checkdata&page=checkout&id=$id'; </script>";
             } else {
                 echo "<script>alert('Gagal! tidak dapat dirubah.')</script>";
             }
@@ -587,17 +646,17 @@ if (isset($_GET['page'])) {
             </ul>
             <div class="row">
                 <div class="col-sm-12 col-md-12">
-        <?php
-        $gets = $_GET;
-        $id = $gets['id'];
-        $sql = mysql_query("Select * From purchasing where id = '$id'");
-        $rows = mysql_fetch_array($sql);
-        if ($get['uName'] == 'admin') {
-            $active = "";
-        } else if ($get['uName'] == 'lani') {
-            $active = "readonly";
-        }
-        ?>
+                    <?php
+                    $gets = $_GET;
+                    $id = $gets['id'];
+                    $sql = mysql_query("Select * From purchasing where id = '$id'");
+                    $rows = mysql_fetch_array($sql);
+                    if ($get['uName'] == 'admin') {
+                        $active = "";
+                    } else if ($get['uName'] == 'lani') {
+                        $active = "readonly";
+                    }
+                    ?>
 
                     <br/>
 
@@ -648,16 +707,16 @@ if (isset($_GET['page'])) {
                                             <div class="col-lg-4">                                        
                                                 <div class="form-group">
                                                     <label>Status</label>
-        <?php
-        $cheked = "";
-        if ($rows['status_pic'] === 'Waiting Approval Director') {
-            $checked = 'checked';
-        } else if ($rows['status_pic'] === 'Waiting Approval Director') {
-            $checked = 'checked';
-        } else if ($rows['status_pic'] === 'PO') {
-            $checked = 'checked';
-        }
-        ?>
+                                                    <?php
+                                                    $cheked = "";
+                                                    if ($rows['status_pic'] === 'Waiting Approval Director') {
+                                                        $checked = 'checked';
+                                                    } else if ($rows['status_pic'] === 'Waiting Approval Director') {
+                                                        $checked = 'checked';
+                                                    } else if ($rows['status_pic'] === 'PO') {
+                                                        $checked = 'checked';
+                                                    }
+                                                    ?>
                                                     <select name="status_pic" class="form-control">
                                                         <option value="Waiting For Quotation" <?php echo $checked; ?>>Waiting For Quotation</option>
                                                         <option value="Waiting Approval Director" <?php echo $checked; ?>>Waiting Approval Director</option>
@@ -757,26 +816,7 @@ if (isset($_GET['page'])) {
                                                     <div class="panel-heading" style="background: #337ab7; border-color: #337ab7; color: white;">Finance</div>
                                                     <div id="widget1container" class="panel-body collapse in">
                                                         <div class="box-body table-responsive">
-                                                            <!--                                                                <div class="col-lg-12">      
-                                                                                                                                <div class="form-group col-lg-4">
-                                                                                                                                    <label>Harga Exc PPN</label>
-                                                                                                                                    <input type="text" name="harga" class="form-control" value="<?php echo $rows['item']; ?>">
-                                                                                                                                </div>
-                                                                                                                            </div>
-                                                                                                                            <div class="col-lg-12">       
-                                                                                                                                <div class="form-group col-lg-4">
-                                                                                                                                    <label>Harga Exc PPN</label>
-                                                                                                                                    <input type="text" name="harga" class="form-control" value="<?php echo $rows['item']; ?>">
-                                                                                                                                </div>
-                                                                                                                            </div>-->
                                                             <table class="table table-bordered table-striped">
-        <!--                                                                <thead>
-                                                                    <tr>
-                                                                        <th>Description</th>
-                                                                        <th>Date</th>
-                                                                        <th>Amount</th>
-                                                                    </tr>
-                                                                </thead>-->
                                                                 <tbody>
                                                                     <tr>
                                                                         <td style="text-align: right">Harga Exc PPN</td>
@@ -849,240 +889,152 @@ if (isset($_GET['page'])) {
                     </div>                    
                 </div>
             </div>
-            <script type="text/javascript">
+            <?php
+            if (isset($_POST['save'])) {
+                $tgl_order = $_POST['tanggal_order'];
+                $no_sms = $_POST['no_sms'];
+                $pemesan = $_POST['pemesan'];
+                $flag = $_POST['flag'];
+                $nama_proyek = $_POST['nama_proyek'];
+                $item = $_POST['item'];
+                $qty = $_POST['qty'];
+                $satuan = $_POST['satuan'];
+                $tanggal_proses = $_POST['tanggal_proses'];
+                $no_po = $_POST['no_po'];
+                $vendor = $_POST['vendor'];
+                $estimasi = $_POST['estimasi'];
+                $cp = $_POST['cp'];
+                $id = $gets['id'];
 
-                counter = 0;
-                $('#addPro').click(function (evt) {
-                    var idSparepart = $('#sparepart').val();
-                    if (idSparepart === '') {
-                        alert("Pilih salah satu");
-                    } else {
-                        var dc3 = window.atob(idSparepart);
-                        var myarr3 = dc3.split("||");
-                        var id = myarr3[0];
-                        var nama = myarr3[1];
-                        var harga = myarr3[2];
-                        var masuk2 = $('#akses2_' + (id)).val();
-
-
-                        if (masuk2 === id) {
-                            //alert("Data yang Anda masukkan sudah ada pada list");
-                        } else {
-                            var output = '<tr id="data_' + (counter) + '">' +
-                                    '<td><input type="checkbox" /></td>' +
-                                    '<td><input name="sparepart[detail][' + counter + '][nama_sparepart]" type="text" class="span2" id="spare" value="' + nama + '" readonly/>' +
-                                    '<input name="sparepart[detail][' + counter + '][id_sparepart]" type="hidden" class="span2" value="' + id + '" id="akses2_' + id + '"/></td>' +
-                                    '<td><input name="sparepart[detail][' + counter + '][harga_satuan]" type="text" class="span2" id="harga_' + id + '" value="' + harga + '" readonly/></td>' +
-                                    '<td><input name="sparepart[detail][' + counter + '][kuantitas]" type="text" class="span2" id="kuantitas_' + id + '" onkeyup="autoComplete(' + id + ');"/></td>' +
-                                    '<td><input name="sparepart[detail][' + counter + '][jumlah]" type="text" class="span2 txt" id="jumlah_' + id + '"/></td>' +
-                                    '</tr>';
-
-                        }
-                    }
-
-                    if ($('tr td', tbody2).length == 1) {
-                        tbody2.html('');
-                    }
-
-                    tbody2.append(output);
-                    $('#jmlJualSparepart').show();
-                    counter++;
-
-                    evt.preventDefault();
-                });</script>
-
-        <?php
-        if (isset($_POST['save'])) {
-            $tgl_order = $_POST['tanggal_order'];
-            $no_sms = $_POST['no_sms'];
-            $pemesan = $_POST['pemesan'];
-            $flag = $_POST['flag'];
-            $nama_proyek = $_POST['nama_proyek'];
-            $item = $_POST['item'];
-            $qty = $_POST['qty'];
-            $satuan = $_POST['satuan'];
-            $tanggal_proses = $_POST['tanggal_proses'];
-            $no_po = $_POST['no_po'];
-            $vendor = $_POST['vendor'];
-            $estimasi = $_POST['estimasi'];
-            $cp = $_POST['cp'];
-            $id = $gets['id'];
-
-            $sql = "UPDATE `purchasing` SET "
-                    . "`tanggal_order`='$tgl_order', "
-                    . "`no_sms`='$no_sms', "
-                    . "`pemesan`='$pemesan', "
-                    . "`flag`='$flag', "
-                    . "`nama_proyek`='$nama_proyek', "
-                    . "`item`='$item', "
-                    . "`qty`='$qty', "
-                    . "`satuan`='$satuan', "
-                    . "`tanggal_proses`='$tanggal_proses', "
-                    . "`no_po`='$no_po', "
-                    . "`vendor`='$vendor', "
-                    . "`estimasi`='$estimasi', "
-                    . "`cp`='$cp' "
-                    . "WHERE (`id`='$id')";
+                $sql = "UPDATE `purchasing` SET "
+                        . "`tanggal_order`='$tgl_order', "
+                        . "`no_sms`='$no_sms', "
+                        . "`pemesan`='$pemesan', "
+                        . "`flag`='$flag', "
+                        . "`nama_proyek`='$nama_proyek', "
+                        . "`item`='$item', "
+                        . "`qty`='$qty', "
+                        . "`satuan`='$satuan', "
+                        . "`tanggal_proses`='$tanggal_proses', "
+                        . "`no_po`='$no_po', "
+                        . "`vendor`='$vendor', "
+                        . "`estimasi`='$estimasi', "
+                        . "`cp`='$cp' "
+                        . "WHERE (`id`='$id')";
 // echo $sql;
 // die();
 
-            $result = mysql_query($sql);
+                $result = mysql_query($sql);
 
-            if ($result) {
-                echo "<script>alert('Berhasil dirubah.')</script>";
-                echo "<script type='text/javascript'>document.location='./index.php?pic=checkdata&page=view'; </script>";
-            } else {
-                echo "<script>alert('Gagal! tidak dapat dirubah.')</script>";
+                if ($result) {
+                    echo "<script>alert('Berhasil dirubah.')</script>";
+                    echo "<script type='text/javascript'>document.location='./index.php?pic=checkdata&page=view'; </script>";
+                } else {
+                    echo "<script>alert('Gagal! tidak dapat dirubah.')</script>";
+                }
             }
-        }
-    } elseif ($_GET['page'] === "print") {
-        $gets = $_GET;
-        $id = $gets['id'];
-        $sql = mysql_query("Select *, DATE_FORMAT(tanggal_order,'%d %b %Y') pesan From purchasing where id = '$id'");
-        $rows = mysql_fetch_array($sql);
-        if ($get['uName'] == 'admin') {
-            $active = "";
-        } else if ($get['uName'] == 'lani') {
-            $active = "readonly";
-        }
-        ?>
+        } elseif ($_GET['page'] === "print") {
+            $gets = $_GET;
+            $id = $gets['id'];
+            $sql = mysql_query("Select *, DATE_FORMAT(tanggal_order,'%d %b %Y') pesan From purchasing where id = '$id'");
+            $rows = mysql_fetch_array($sql);
+            if ($get['uName'] == 'admin') {
+                $active = "";
+            } else if ($get['uName'] == 'lani') {
+                $active = "readonly";
+            }
+            ?>
             <div class="main-content">
                 <div class="row padding-top">
-                    <div class="col-md-10 col-md-offset-1">
+                    <div class="col-md-11 col-md-offset-1">
                         <div class="row">
-                            <div class="col-md-7">
+                            <div class="col-lg-12">
                                 <span style="font-size: 28px;"><span class="fa fa-building"></span> Procurement Information Center</span>
-                                <!--                            <address>
-                                                                26071 West Broadway Blvd.<br>
-                                                                Suite 309<br>
-                                                                New York, NY 10011<br>
-                                                                +1-555-233-2293
-                                                            </address>-->
                             </div>
-                            <div class="pull-right well">
-                                <table>
-                                    <tbody>
-                                        <tr>
-                                            <td class="pull-right padding-right"><strong>Pemesan #</strong></td>
-                                            <td><?php echo $rows['pemesan']; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="pull-right padding-right"><strong>Tanggal #</strong></td>
-                                            <td><?php echo $rows['pesan']; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="pull-right padding-right"><strong>Date</strong></td>
-                                            <td>8/7/2014</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="pull-right padding-right"><strong>Period</strong></td>
-                                            <td>6/30/2104 — 8/31/2014</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <h3>Sunset Corp.</h3>
-                                <address>
-                                    6071 West Second Blvd.<br>
-                                    New York, NY 10011<br>
-                                    +1-555-393-5271
-                                </address>
+                            <div class="col-lg-4">
+                                <div class="well">
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td class="pull-right padding-right"><strong>Pemesan #</strong></td>
+                                                <td><?php echo $rows['pemesan']; ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="pull-right padding-right"><strong>Tanggal #</strong></td>
+                                                <td><?php echo $rows['pesan']; ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="pull-right padding-right"><strong>Time #</strong></td>
+                                                <td><?php echo $rows['jam_sms']; ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="pull-right padding-right"><strong>No. SMS #</strong></td>
+                                                <td><?php echo $rows['no_sms']; ?></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-8">
-                                <h2>Invoice</h2>
+                                <h2>Isi SMS</h2>
                             </div>
                         </div>
-                        <h3>Services</h3>
                         <div class="row">
                             <div class="col-md-12">
                                 <table class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
-                                            <th>Description</th>
-                                            <th>Date</th>
-                                            <th>Amount</th>
+                                            <th>Pesanan</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Product Design<br><p class="text-sm">Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master.</p></td>
-                                            <td>10/3/2014</td>
-                                            <td>$1,200.00</td>
+                                            <td><p>Permintaan Material Proyek <strong><?php echo $rows['nama_proyek']; ?></strong>: <?php echo $rows['item']; ?>  </p></td>
                                         </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row padding-top">
+                            <div class="col-md-6">
+                                <table>
+                                    <tbody>
                                         <tr>
-                                            <td>Product Design<br><p class="text-sm">Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master.</p></td>
-                                            <td>10/5/2014</td>
-                                            <td>$1,400.00</td>
+                                            <td class="pull-right padding-right"><strong>Diterima</strong></td>
                                         </tr>
-                                        <tr>
-                                            <td>Product Design<br><p class="text-sm">Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master.</p></td>
-                                            <td>10/7/2014</td>
-                                            <td>$1,600.00</td>
+                                        <tr style="height: 150px;">
+                                            <td><p style="text-decoration: underline"><?php echo $rows['createdby']; ?></p></td>
+                                            <td></td>
                                         </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-6">
+                                <table>
+                                    <tbody>
                                         <tr>
-                                            <td>Product Design<br><p class="text-sm">Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master.</p></td>
-                                            <td>10/9/2014</td>
-                                            <td>$1,800.00</td>
-                                        </tr><tr>
-                                            <td>&nbsp;</td>
-                                            <td><strong>Total</strong></td>
-                                            <td><strong>$6,240.00</strong></td>
+                                            <td class="pull-right padding-right"><strong>Diarsip</strong></td>
+                                        </tr>
+                                        <tr style="height: 150px;">
+                                            <td></td>
+                                            <td></td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
 
-                        <h3>Goods</h3>
                         <div class="row">
                             <div class="col-md-12">
-                                <table class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Description</th>
-                                            <th>Date</th>
-                                            <th>Amount</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Product Design<br><p class="text-sm">Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master.</p></td>
-                                            <td>10/3/2014</td>
-                                            <td>$1,200.00</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Product Design<br><p class="text-sm">Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master.</p></td>
-                                            <td>10/5/2014</td>
-                                            <td>$1,400.00</td>
-                                        </tr><tr>
-                                            <td>&nbsp;</td>
-                                            <td><strong>Total</strong></td>
-                                            <td><strong>$2,240.00</strong></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <a href="#" class="btn btn-warning"><span class="fa fa-credit-card"> Pay Now</span></a>
-                            </div>
-                        </div>
-                        <div class="row padding-top">
-                            <div class="col-md-12">
-                                <div class="well">
-                                    Thank you for choosing Blue Nile, Inc.
-                                </div>
+                                <a href="#" class="btn btn-danger"><span class="fa fa-print"> Print</span></a>
+                                <a href="./index.php?pic=checkdata&page=view" class="btn btn-default"> Back</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        <?php
-    }
-}    
+            <?php
+        }
+    }    

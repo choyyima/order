@@ -133,6 +133,7 @@ if (empty($get['uName'])) {
         <script src="js/bootstrap.min.js"></script>
         <script src="js/jquery.dataTables.min.js"></script>
         <script src="js/dataTables.bootstrap.js"></script>
+        <script src="js/jquery.numberformatter-1.2.3.js"></script>        
         <script type="text/javascript">
             $(function () {
                 var match = document.cookie.match(new RegExp('color=([^;]+)'));
@@ -155,7 +156,7 @@ if (empty($get['uName'])) {
             });
             $(document).ready(function () {
                 $('#data').dataTable({
-                    "lengthMenu": [[15, 25, 50, -1], [15, 25, 50, "All"]]
+                    "lengthMenu": [[5, 25, 50, -1], [5, 25, 50, "All"]]
                 });
             });
 

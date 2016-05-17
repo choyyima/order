@@ -2,6 +2,13 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group name="ARYANA-APP"/>
+        <group name="ARYANA-APP">
+            <file>file:/D:/htdocs/orderkantor/index.php</file>
+            <file>file:/D:/htdocs/orderkantor/coba.php</file>
+            <file>file:/D:/htdocs/orderkantor/js/jquery.numberformatter-1.2.3.js</file>
+            <file>file:/D:/htdocs/orderkantor/checkdata.php</file>
+            <file>file:/D:/htdocs/orderkantor/complain.php</file>
+            <file>file:/D:/htdocs/orderkantor/user.html</file>
+        </group>
     </open-files>
 </project-private>

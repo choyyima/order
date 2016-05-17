@@ -1,15 +1,36 @@
-<?php
+<html>
+    <head>
+        <script src="js/jquery-1.11.1.min.js"></script>
+        <script language="JavaScript" type="text/JavaScript">
+            counter = 0;
+            function action()
+            {
+             var wrapper = $('.field_wrapper');
+            counterNext = counter + 1;
+            document.getElementById("input"+counter).innerHTML = "<p>Masukkan Data <input type='text' name='data[]'></p><div id=\"input"+counterNext+"\"><a href=\"javascript:void(0);\" class=\"col-xs-1 remove_button btn btn-danger\" title=\"Remove field\"><span class=\"fa fa-minus\"> Delete</span></a></div>";
+            counter++;
+            $(wrapper).on('click', '.remove_button', function (e) {
+            e.preventDefault();
+            $(this).parent('div').remove();
+            counter--;
+            });
+        }
+        </script>
+    </head>
 
-$body_mail = "<h3>Dear Purchasing</h3>\r\n 
-	Pada tanggal , jam \r\n 
-	. Telah menerima laporan dari $jabatan bernama $nama, no. telp $no_tlp\r\n
-	. Pada proyek $proyek, no. order $no_order. Ada komplain sebagai berikut:";
-$body_mail .= "<html><body><p>Halo <i>dunia</i>, ini email <br>HTML lho.</p></body></html>";
-$headers = "From: support\r\n";
-$headers .= "Reply-to:orderkantor.com\r\n";
-$headers .= "MIME-Version: 1.0\r\n";
-$headers .= "Content-Type: text/html; charset=UTF-8\r\n";
-$mail_sent = @mail("it-support@aryana.co.id", "Judul TEST", $body_mail, $headers);
-echo $mail_sent ? "Terkirim" : "
-Gagal";
-?>
+    <body>
+        <h1>Form Dinamis</h1>
+
+        <form method="post" action="submit.php">
+            <p>Masukkan Data <input type='text' class="remove_button" name='data[]'></p>
+
+            <div id="input0">
+            </div>
+
+            <p><a href="javascript:action();">Tambah</a></p>
+            <p><input type="submit" name="submit" value="Submit"><input type="reset" name="reset" value="Reset"></p>
+
+        </form>
+
+    </body>
+</html>
