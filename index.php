@@ -29,6 +29,9 @@ if (empty($get['uName'])) {
             #data_wrapper{
                 overflow-x: auto;
             }
+            .dataTables_filter{
+                // visibility: hidden;
+            }
         </style>
     </head>
     <body class=" theme-blue">
@@ -166,8 +169,8 @@ if (empty($get['uName'])) {
                     return false;
                 });
             });
-            
-            
+
+
         </script>
     </body>
 </html>
