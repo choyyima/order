@@ -91,6 +91,7 @@ if (empty($get['uName'])) {
                         <?php if ($get['uName'] == 'admin') { ?> 
                             <li ><a href="index.php?pic=pm&page=view"><span class="fa fa-caret-right"></span> Employee</a></li>
                             <li ><a href="index.php?pic=user&page=view"><span class="fa fa-caret-right"></span> Users</a></li>
+                            <li ><a href="index.php?pic=report&page=view"><span class="fa fa-caret-right"></span> Report</a></li>
                         <?php } ?>                   
                     </ul>
                 </li>
@@ -123,6 +124,8 @@ if (empty($get['uName'])) {
                     include 'employee.php';
                 } elseif ($g == 'user') {
                     include 'users.php';
+                } elseif ($g == 'report') {
+                    include 'report.php';
                 }
             } else {
                 echo "<script>javascript:window.location.replace('index.php?pic=checkdata&page=view');</script>";
