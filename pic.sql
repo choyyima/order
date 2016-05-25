@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50614
 File Encoding         : 65001
 
-Date: 2016-05-23 11:51:19
+Date: 2016-05-25 17:01:46
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -171,7 +171,7 @@ CREATE TABLE `purchasing` (
   `satuan` varchar(20) NOT NULL,
   `tanggal_proses` date NOT NULL,
   `notes` varchar(255) NOT NULL,
-  `request` varchar(100) NOT NULL,
+  `request` varchar(200) NOT NULL,
   `status_pic` varchar(50) NOT NULL,
   `no_po` varchar(15) NOT NULL,
   `vendor` varchar(255) NOT NULL,
@@ -193,7 +193,7 @@ CREATE TABLE `purchasing` (
   `updated2by` varchar(50) NOT NULL,
   `updated2` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=614 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=619 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of purchasing
@@ -808,9 +808,14 @@ INSERT INTO `purchasing` VALUES ('607', '2016-05-21', '08:00', '5001', 'Budi', '
 INSERT INTO `purchasing` VALUES ('608', '2016-05-21', '08:00', '5001', 'Budi', '', 'Sby', 'paku 5cm', '3', 'dos', '0000-00-00', '', '', 'Waiting For Quotation', '', '', '0000-00-00', '', '', '0000-00-00', '', '', '', '', '0000-00-00', '', '', 'admin', '2016-05-20 10:42:05', '', '0000-00-00 00:00:00', '', '0000-00-00 00:00:00');
 INSERT INTO `purchasing` VALUES ('609', '2016-05-21', '08:00', '5001', 'Budi', '', 'Sby', 'atap zincalume t:0.35 KR 5 P; 9983 mm', '2', 'bh', '0000-00-00', '', '', 'Waiting For Quotation', '', '', '0000-00-00', '', '', '0000-00-00', '', '', '', '', '0000-00-00', '', '', 'admin', '2016-05-20 10:42:05', '', '0000-00-00 00:00:00', '', '0000-00-00 00:00:00');
 INSERT INTO `purchasing` VALUES ('610', '2016-04-23', '08:35:00', '5000', 'ali 081252377222', '', 'kds probolinggo', 'siku 3x3', '24', 'btg', '0000-00-00', 'Segera', '', 'Waiting For Quotation', '', '', '0000-00-00', '', '', '0000-00-00', '', '', '', '', '0000-00-00', '', '', 'admin', '2016-05-23 03:36:53', '', '0000-00-00 00:00:00', '', '0000-00-00 00:00:00');
-INSERT INTO `purchasing` VALUES ('611', '2016-04-23', '08:35:00', '5000', 'ali 081252377222', 'PD', 'kds probolinggo', 'pasir 5 rit', '35', 'm3', '2016-05-24', 'Segera', '', 'Waiting For Quotation', '50', 'pak gandum', '2016-05-24', 'iema', 'indah', '30', '50,000', '', '55,000', '1,925,000', '2016-05-26', 'SJ10', 'iema', 'admin', '2016-05-23 03:36:53', 'admin', '2016-05-23 05:39:09', 'admin', '2016-05-23 06:07:44');
+INSERT INTO `purchasing` VALUES ('611', '2016-04-23', '08:35:00', '5000', 'ali 081252377222', 'PD', 'kds probolinggo', 'pasir 5 rit', '35', 'm3', '2016-05-24', 'Segera', '2016-05-24', 'Waiting For Quotation', '50', 'pak gandum', '2016-05-24', 'iema', 'indah', '30', '50,000', 'Yes', '55,000', '1,925,000', '2016-05-26', 'SJ10', 'iema', 'admin', '2016-05-23 03:36:53', 'admin', '2016-05-23 05:39:09', 'admin', '2016-05-23 06:07:44');
 INSERT INTO `purchasing` VALUES ('612', '2016-04-23', '08:35:00', '5000', 'ali 081252377222', '', 'kds probolinggo', 'semen tiga roda', '200', 'zak', '0000-00-00', 'Segera', '', 'Waiting For Quotation', '', '', '0000-00-00', '', '', '0000-00-00', '', '', '', '', '0000-00-00', '', '', 'admin', '2016-05-23 03:36:53', '', '0000-00-00 00:00:00', '', '0000-00-00 00:00:00');
 INSERT INTO `purchasing` VALUES ('613', '2016-04-23', '08:35:00', '5000', 'ali 081252377222', '', 'kds probolinggo', 'beton cor k250 nfa', '17', 'm3', '0000-00-00', 'Segera', '', 'Waiting For Quotation', '', '', '0000-00-00', '', '', '0000-00-00', '', '', '', '', '0000-00-00', '', '', 'admin', '2016-05-23 03:36:53', '', '0000-00-00 00:00:00', '', '0000-00-00 00:00:00');
+INSERT INTO `purchasing` VALUES ('614', '2016-05-25', '08:20', '5003', 'yudi g 0818502235', '', 'kds probolinggo', 'atap zincalume t:0.35 KR 5 P; 9983 mm', '3', 'dos', '0000-00-00', 'Tambahan', '', 'Waiting For Quotation', '', '', '0000-00-00', '', '', '', '', '', '', '', '0000-00-00', '', '', 'admin', '2016-05-25 03:40:19', '', '0000-00-00 00:00:00', '', '0000-00-00 00:00:00');
+INSERT INTO `purchasing` VALUES ('615', '2016-05-25', '08:20', '5003', 'yudi g 0818502235', '', 'kds probolinggo', 'resibon wd', '2', 'dos', '0000-00-00', 'Tambahan', '', 'Waiting For Quotation', '', '', '0000-00-00', '', '', '', '', '', '', '', '0000-00-00', '', '', 'admin', '2016-05-25 03:40:19', '', '0000-00-00 00:00:00', '', '0000-00-00 00:00:00');
+INSERT INTO `purchasing` VALUES ('616', '2016-05-25', '12:30', '5004', 'david c 081615002003', '', 'kds probolinggo', 'paku 5cm', '3', 'dos', '0000-00-00', 'okkeh', '2016-05-25', 'Waiting For Quotation', '', '', '0000-00-00', '', '', '', '', '', '', '', '0000-00-00', '', '', 'admin', '2016-05-25 04:17:05', '', '0000-00-00 00:00:00', '', '0000-00-00 00:00:00');
+INSERT INTO `purchasing` VALUES ('617', '2016-05-25', '0810', '0812938', 'buyer', '', 'bali', 'pasir', '1', 'gelangsing', '0000-00-00', 'nganu', '2016-05-25', 'Waiting For Quotation', '', '', '0000-00-00', '', '', '', '', '', '', '', '0000-00-00', '', '', 'admin', '2016-05-25 04:49:10', '', '0000-00-00 00:00:00', '', '0000-00-00 00:00:00');
+INSERT INTO `purchasing` VALUES ('618', '2016-05-25', '10:00', '5005', 'david c 081615002003', '', 'hotel bromo probolinggo', 'atap zincalume t:0.35 KR 5 P; 9983 mm', '2', 'dos', '0000-00-00', 'segerah', 'BL', 'Waiting For Quotation', '', '', '0000-00-00', '', '', '', '', '', '', '', '0000-00-00', '', '', 'admin', '2016-05-25 04:53:29', '', '0000-00-00 00:00:00', '', '0000-00-00 00:00:00');
 
 -- ----------------------------
 -- Table structure for `user`
