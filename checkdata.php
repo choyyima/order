@@ -17,9 +17,8 @@ if (isset($_GET['page'])) {
                     if ($get['uName'] == 'admin' || $get['uName'] == 'lani' || $get['uName'] == 'yesi') {
                         ?>
                         <div class="btn-toolbar list-toolbar">
-                            <a href="index.php?pic=checkdata&page=create" class="btn btn-success"><span class="fa fa-plus"></span> Tambah</a>                        
-                            <div class="btn-group">
-                            </div>
+                            <a href="index.php?pic=checkdata&page=create" class="btn btn-success"><span class="fa fa-plus"></span> Tambah</a> 
+                            <a href="index.php?pic=checkdata&page=download" class="btn btn-warning"><span class="fa fa-download"></span> Download</a> 
                         </div>
                     <?php } ?>
                     <div class="panel panel-default">
@@ -60,7 +59,11 @@ if (isset($_GET['page'])) {
                                             echo"<tr>
                                                     <td>$no</td>";
                                             if ($get['uName'] == 'admin' || $get['uName'] == 'lani' || $get['uName'] == 'yesi') {
-                                                echo "<td><a href= 'index.php?pic=checkdata&page=update&id=$result[id]' class='btn btn-link'> Edit</a>";
+                                                if ($result['no_po'] > 0) {
+                                                    echo "<td><a href= 'index.php?pic=checkdata&page=checkout&id=$result[id]' class='btn btn-link'> Edit</a>";
+                                                } else {
+                                                    echo "<td><a href= 'index.php?pic=checkdata&page=update&id=$result[id]' class='btn btn-link'> Edit</a>";
+                                                }
                                                 echo "<a href= 'index.php?pic=checkdata&page=print&id=$result[no_sms]' class='btn btn-link'> Print</a>";
                                                 echo "<td>$result[flag]</td>";
                                             }
@@ -91,6 +94,9 @@ if (isset($_GET['page'])) {
         </div>
         <?php
     } elseif ($_GET['page'] === "create") {
+        $q = "SELECT no_sms FROM purchasing ORDER BY tanggal_order DESC, no_sms DESC";
+        $resultData = mysql_query($q);
+        $getData = mysql_fetch_array($resultData);
         ?>
 
         <script src="coba.js"></script>
@@ -105,7 +111,7 @@ if (isset($_GET['page'])) {
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#procces1" data-toggle="tab">Process 1</a></li>
                 <div class="pull-right col-lg-4">
-                    <label>Last SMS Number/ No. SMS Terakhir : <?php ?></label>
+                    <label>Last SMS Number/ No. SMS Terakhir : <?php echo $getData['no_sms'] ?></label>
                 </div> 
             </ul>
             <div class="row">
@@ -173,9 +179,9 @@ if (isset($_GET['page'])) {
                                                         <tbody id="addProduct">
                                                             <tr id="first" style="display:none">
                                                                 <td><input type="checkbox" class="checkbox"/></td>
-                                                                <td><input name="item[]" type="text" class="form-control" required=""/></td>
-                                                                <td><input name="qty[]"  type="text" class="form-control col-lg-4" required=""/></td>
-                                                                <td><input name="unit[]" type="text" class="form-control" required=""/></td>
+                                                                <td><input name="item[]" type="text" class="form-control"/></td>
+                                                                <td><input name="qty[]"  type="text" class="form-control col-lg-4" /></td>
+                                                                <td><input name="unit[]" type="text" class="form-control" /></td>
                                                             </tr>
                                                             <tr id="empty"><td colspan="5" class="sys_align_center" >No Data / Tidak ada data</td></tr>
                                                         </tbody>
@@ -185,13 +191,13 @@ if (isset($_GET['page'])) {
                                                         <div class="col-lg-6">
                                                             <div class="form-group">
                                                                 <label>Request Delivery / Permintaan Pengiriman</label>
-                                                                <div class="form-inline"><input type="radio" name="radio" id="radiorequest"> <input type="date" name="request" value="" id="request" class="form-control"></div>
+                                                                <div class="form-inline"><input type="radio" name="radioreq" id="radiorequest"> <input type="date" name="request" id="request" class="form-control"></div>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-4">
                                                             <div class="form-group">
                                                                 <label></label>
-                                                                <div class="form-inline"><input type="radio" name="radio" name="bl" value="Beli Dilapangan"> Beli Dilapangan</div>
+                                                                <div class="form-inline"><input type="radio" id="request" name="radioreq" value="BL"> Beli Dilapangan</div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -214,7 +220,9 @@ if (isset($_GET['page'])) {
                                         <div class="col-lg-12">    
                                             <div class="form-group">
                                                 <button class="btn btn-primary" name="saveadd" type="submit"> Submit</button>
+                                                <a href="./index.php?pic=checkdata&page=view" class="btn btn-default" > Back</a>
                                                 <input type="hidden" name="counter" id="counter">
+                                                <input type="hidden" name="reqdata" id="reqdata">
                                             </div>
                                         </div>
                                     </form>
@@ -224,6 +232,24 @@ if (isset($_GET['page'])) {
                     </div>
                 </div>
             </div>
+            <script>
+                $('input[name=radioreq]').change(function () {
+                    var dt;
+                    dt = $('input[name="radioreq"]:checked').val();
+                    $('#reqdata').val(dt);
+                    //                    $("valreq").val(dt);
+                    //                            alert(dt);
+                });
+
+                $("#request").change(function () {
+                    var dta;
+                    dta = $("#request").val();
+                    $('#reqdata').val(dta);
+                    //                    $("valreq").val(dt);
+                    //                            alert(dt);
+                });
+
+            </script>
 
             <?php
             if (isset($_POST['saveadd'])) {
@@ -236,7 +262,7 @@ if (isset($_GET['page'])) {
                 $qty = $_REQUEST['qty'];
                 $unit = $_REQUEST['unit'];
                 $notes = $_POST['notes'];
-                $request = $_POST['request'];
+                $reqs = $_POST['reqdata'];
                 $status_pic = $_POST['status_pic'];
                 $datenow = date("Y-m-d h:i:s");
                 $cnt = $_POST['counter'];
@@ -250,17 +276,17 @@ if (isset($_GET['page'])) {
                             . "`item`='$item[$i]', "
                             . "`qty`='$qty[$i]', "
                             . "`satuan`='$unit[$i]', "
-                            . "`tanggal_proses`='$proses', "
                             . "`notes`='$notes', "
-                            . "`request`='$request', "
+                            . "`request`='$reqs', "
                             . "`status_pic`='$status_pic', "
                             . "`createdby`='$get[uName]', "
                             . "`created`='$datenow' ";
 
-                    $result = mysql_query($sql);
+//                    echo $sql;die();
+                    $resultq = mysql_query($sql);
                     $newid = mysql_insert_id();
                 }
-                if ($result) {
+                if ($resultq) {
                     echo "<script>alert('Berhasil ditambah.')</script>";
                     echo "<script type='text/javascript'>document.location='./index.php?pic=checkdata&page=print&id=$no_sms'; </script>";
                 } else {
@@ -340,15 +366,18 @@ if (isset($_GET['page'])) {
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
                                                             <label>Request Delivery / Permintaan Pengiriman</label>
-                                                            <div class="form-inline"><input type="radio" name="radio" id="radiorequest" disabled=""> <input type="date" name="request" value="" id="request" value="<?php echo $rows['request']; ?>" class="form-control" disabled=""></div>
+                                                            <div class="form-inline">
+                                                                <?php echo $rows['request']; ?>
+                                                                <!--<input type="radio" name="radioreq" id="radiorequest" readonly=""> <input type="date" name="request" id="request" class="form-control" readonly="">-->
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-4">
-                                                        <div class="form-group">
-                                                            <label></label>
-                                                            <div class="form-inline"><input type="radio" name="radio" name="bl" value="Beli Dilapangan" disabled=""> Beli Dilapangan</div>
-                                                        </div>
-                                                    </div>
+                                                    <!--                                                    <div class="col-lg-4">
+                                                                                                            <div class="form-group">
+                                                                                                                <label></label>
+                                                                                                                <div class="form-inline"><input type="radio" id="request" name="radioreq" value="BL" readonly=""> Beli Dilapangan</div>
+                                                                                                            </div>
+                                                                                                        </div>-->
                                                     <div class="col-lg-12">
                                                         <div class="form-group">
                                                             <label>Notes / Catatan</label>
@@ -402,7 +431,7 @@ if (isset($_GET['page'])) {
                                                                     <th class="col-xs-2">Qty</th>
                                                                     <th class="col-xs-2">Unit</th>
                                                                     <th class="col-xs-2">Unit Price / Harga Satuan</th>
-                                                                    <th class="col-xs-2">PPN 10%</th>
+                                                                    <th class="col-xs-0">PPN 10%</th>
                                                                     <th class="col-xs-1">Unit Price Final / Total</th>
                                                                     <th class="col-xs-1">Total Price Final / Total Harga * Qty</th>
                                                                 </tr>
@@ -413,6 +442,11 @@ if (isset($_GET['page'])) {
                                                                 $no = 1;
                                                                 $dataPO = mysql_query("select * from purchasing where id='$id'");
                                                                 while ($arrPO = mysql_fetch_array($dataPO)) {
+                                                                    if ($arrPO['ppn'] == "Yes") {
+                                                                        $cek = "selected";
+                                                                    } else {
+                                                                        $ceks = "selected";
+                                                                    }
                                                                     if (!empty($arrPO)) {
                                                                         ?>
                                                                         <tr>
@@ -447,12 +481,12 @@ if (isset($_GET['page'])) {
                                                                             <td><input type="text" onkeyup="formatangka(this);
                                                                                                     autoComplete(this);" value="<?php echo $arrPO['harga']; ?>" id="harga" class="radio1 form-control" name="harga" style="text-align: right" placeholder="0"></td>
                                                                             <td><select name="ppn" id="ppn" class="form-control">
-                                                                                    <option value="">-Choose-</option>
+                                                                                    <option value="0">-Choose-</option>
                                                                                     <option value="Yes">Yes</option>
                                                                                     <option value="No">No</option>
                                                                                 </select></td> 
-                                                                            <td><input type="text" class="form-control" id="total" name="total" value="<?php echo $arrPO['total']; ?>" style="text-align: right" readonly=""></td>
-                                                                            <td><input type="text" value="<?php echo $arrPO['subtotal']; ?>" id="subtotal" class="form-control" name="subtotal" style="text-align: right" readonly=""></td>
+                                                                            <td><input type="text" class="form-control" id="total" name="total" value="<?php echo $arrPO['total']; ?>" placeholder="0" style="text-align: right" readonly=""></td>
+                                                                            <td><input type="text" value="<?php echo $arrPO['subtotal']; ?>" id="subtotal" class="form-control" name="subtotal" placeholder="0" style="text-align: right" readonly=""></td>
                                                                         </tr>
                                                                         <?php
                                                                     } else {
@@ -470,6 +504,7 @@ if (isset($_GET['page'])) {
                                                 <div class="col-lg-12">    
                                                     <div class="form-group">
                                                         <button class="btn btn-primary" name="save" type="submit"> Update</button>
+                                                        <a href="./index.php?pic=checkdata&page=view" class="btn btn-default" > Back</a>
                                                     </div>
                                                 </div>
                                             </form>
@@ -503,15 +538,13 @@ if (isset($_GET['page'])) {
                 function autoComplete(value)
                 {
                     var harga = Number(document.getElementById('harga').value.replace(/[^0-9\.]+/g, ""));
-                    // harganoppn = Number(document.getElementById('harganoppn').value.replace(/[^0-9\.]+/g, ""));
-                    // ppn = document.getElementById('ppn').value;
                     var qty = document.getElementById('qty').value;
-
-                    //ngitung harga + ppn
+                    $('#ppn').prop("disabled", false);
                     $('#ppn').change(function () {
                         var ppn = $('#ppn').val();
                         if (ppn === 'Yes') {
                             jmlh = harga * (1.1);
+                            $("#ppn option[value='0']").remove();
                         } else if (ppn === 'No') {
                             jmlh = harga;
                         }
@@ -533,35 +566,13 @@ if (isset($_GET['page'])) {
                             document.getElementById("total").value = aaa;
                             document.getElementById("subtotal").value = bbb;
                         }
-                    })
-                    // if (harga > 0) {
-                    //     jmlh = harga * ppn;
-                    // } else {
-                    //     jmlh = harga;
-                    // }
-
-                    //ngitung total ke subtotal    
-
-
-                    //ngitung non ppn
-                    // if (harganoppn > 0) {
-                    //     subto = harganoppn * qty;
-                    // } else {
-                    //     subto = harganoppn;
-                    // }
-
-
-                    // else if (c !== 0) {
-                    //     document.getElementById("total").value = ddd;
-                    //     document.getElementById("subtotal").value = ccc;
-                    // }
-
+                    });
                 }
 
                 $(document).ready(function () {
                     $("#qty").val();
-                    $('#total').val("0");
-                    $('#subtotal').val("0");
+                    //                    $('#total').val("0");
+                    //                    $('#subtotal').val("0");
                 });
 
 
@@ -645,7 +656,6 @@ if (isset($_GET['page'])) {
                         } elseif ($rows['status_pic'] == 'PO Has Been Release') {
                             $checkedss = 'selected';
                         }
-
                         ?>
                         <br/>
                         <div id="myTabContent" class="tab-content">
@@ -689,15 +699,18 @@ if (isset($_GET['page'])) {
                                                     <div class="col-lg-6">
                                                         <div class="form-group">
                                                             <label>Request Delivery / Permintaan Pengiriman</label>
-                                                            <div class="form-inline"><input type="radio" name="radio" id="radiorequest" disabled=""> <input type="date" name="request" value="" id="request" value="<?php echo $rows['request']; ?>" class="form-control" disabled=""></div>
+                                                            <div class="form-inline">
+                                                                <?php echo $rows['request']; ?>
+                                                                <!--<input type="radio" name="radioreq" id="radiorequest" readonly=""> <input type="date" name="request" id="request" class="form-control" readonly="">-->
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-4">
-                                                        <div class="form-group">
-                                                            <label></label>
-                                                            <div class="form-inline"><input type="radio" name="radio" name="bl" value="Beli Dilapangan" disabled=""> Beli Dilapangan</div>
-                                                        </div>
-                                                    </div>
+                                                    <!--                                                    <div class="col-lg-4">
+                                                                                                            <div class="form-group">
+                                                                                                                <label></label>
+                                                                                                                <div class="form-inline"><input type="radio" id="request" name="radioreq" value="BL" readonly=""> Beli Dilapangan</div>
+                                                                                                            </div>
+                                                                                                        </div>-->
                                                     <div class="col-lg-12">
                                                         <div class="form-group">
                                                             <label>Notes / Catatan</label>
@@ -821,7 +834,7 @@ if (isset($_GET['page'])) {
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="tab-pane active in" id="procces3">
                                 <div class="panel panel-default">
                                     <a href="#widget1container" class="panel-heading" data-toggle="collapse"> Create Data Purchase Order - Phase 3</a>
@@ -839,7 +852,7 @@ if (isset($_GET['page'])) {
                                                         <table id="data" class=" table table-bordered table-striped table-responsive">
                                                             <thead>
                                                                 <tr>
-<!--                                                                    <th>No.</th>
+        <!--                                                                    <th>No.</th>
                                                                     <th>PO Number / No. PO</th>
                                                                     <th>Date PO / Tanggal PO</th>
                                                                     <th>Flag / Bendera</th>
@@ -868,30 +881,30 @@ if (isset($_GET['page'])) {
                                                                     if (!empty($arr)) {
                                                                         ?>
                                                                         <tr>
-<!--                                                                            <td align=center><?php echo $no; ?></td>
+                <!--                                                                            <td align=center><?php echo $no; ?></td>
                                                                             <td>
-                                                                                <?php echo $arr['no_po']; ?>
+                                                                            <?php echo $arr['no_po']; ?>
                                                                             </td>
                                                                             <td>
-                                                                                <?php echo $arr['tanggal_proses']; ?>
+                                                                            <?php echo $arr['tanggal_proses']; ?>
                                                                             </td>
                                                                             <td>                                                                                
-                                                                                <?php echo $arr['flag']; ?>
+                                                                            <?php echo $arr['flag']; ?>
                                                                             </td>
                                                                             <td>
-                                                                                <?php echo $arr['vendor']; ?>
+                                                                            <?php echo $arr['vendor']; ?>
                                                                             </td>
                                                                             <td>
-                                                                                <?php echo $arr['pengorder']; ?>
+                                                                            <?php echo $arr['pengorder']; ?>
                                                                             </td>
                                                                             <td>
-                                                                                <?php echo $arr['estimasi']; ?>
+                                                                            <?php echo $arr['estimasi']; ?>
                                                                             </td>
                                                                             <td>
-                                                                                <?php echo $arr['cp']; ?>
+                                                                            <?php echo $arr['cp']; ?>
                                                                             </td>
                                                                             <td>
-                                                                                <?php echo $arr['tanggal_tempo']; ?>
+                                                                            <?php echo $arr['tanggal_tempo']; ?>
                                                                             </td>
                                                                             <td class="col-lg-3"><?php echo $arr['item']; ?></td>
                                                                             <td align=center><?php echo $arr['qty']; ?></td>
@@ -926,6 +939,7 @@ if (isset($_GET['page'])) {
                                                 <div class="col-lg-12">    
                                                     <div class="form-group">
                                                         <button class="btn btn-primary" name="save" type="submit"> Update</button>
+                                                        <a href="./index.php?pic=checkdata&page=view" class="btn btn-default" > Back</a>
                                                     </div>
                                                 </div>
                                             </form>
@@ -969,7 +983,7 @@ if (isset($_GET['page'])) {
             $id = $gets['id'];
             $sql = mysql_query("SELECT DATE_FORMAT(tanggal_order,'%d %b %Y') pesan, jam_sms, no_sms, pemesan, nama_proyek, tanggal_proses,  
                             (select replace(GROUP_CONCAT(DISTINCT p.item,' (', p.qty, p.satuan,')'),',',', ') orderan from purchasing p where p.no_sms='$id') orderan,
-                            createdby,notes FROM purchasing WHERE no_sms='$id'
+                            createdby,notes, request FROM purchasing WHERE no_sms='$id'
                             GROUP BY no_sms");
             $rows = mysql_fetch_array($sql);
             if ($get['uName'] == 'admin') {
@@ -1030,7 +1044,7 @@ if (isset($_GET['page'])) {
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td><p>Permintaan Material Proyek <strong><?php echo $rows['nama_proyek']; ?></strong>: <?php echo $rows['orderan']; ?><br>(<?php echo $rows['notes']; ?>)  </p></td>
+                                            <td><p>Permintaan Material Proyek <strong><?php echo $rows['nama_proyek']; ?></strong>: <?php echo $rows['orderan']; ?><br>Request <?php echo $rows['request']; ?>, Catatan (<?php echo $rows['notes']; ?>)  </p></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -1056,6 +1070,96 @@ if (isset($_GET['page'])) {
                     <!--<input type="button" value="Open window"  />-->
                     <button class="btn btn-danger" onclick="printDiv('print');"><span class="fa fa-print"> Print</span></button>
                     <a href="./index.php?pic=checkdata&page=view" class="btn btn-default"> Back</a>
+                </div>
+            </div>
+            <?php
+        } elseif ($_GET['page'] === "download") {
+            ?> 
+            <div class="header">
+                <h1 class="page-title">Download Data</h1>
+                <ul class="breadcrumb">
+                    <li>Home </li>
+                    <li class="active">Download Data</li>
+                </ul>
+            </div>
+            <div class="main-content">
+                <div class="row padding-top">
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <a href="#widget1container" class="panel-heading" data-toggle="collapse"> Check Data</a>
+                            <div id="widget1container" class="panel-body collapse in">
+                                <div class="box-body table-responsive">
+                                    <table id="data" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th width="30px">No.</th>
+                                                <th>Flag</th>
+                                                <th width="80px">Date Order</th>
+                                                <th>SMS No. </th>
+                                                <th>Buyer</th>
+                                                <th>Project</th>
+                                                <th>Item</th>
+                                                <th>Qty</th>
+                                                <th>Unit</th>
+                                                <th width="80px">Date Process</th>
+                                                <th>Request</th>
+                                                <th>PO No. </th>
+                                                <th>Vendor</th>
+                                                <th>Estimasi</th>
+                                                <th>Pengorder</th>
+                                                <th>Harga</th>
+                                                <th>PPN</th>
+                                                <th>Total</th>
+                                                <th>Subtotal</th>
+                                                <th>Tanggal Tempo</th>
+                                                <th>Tanggal Kirim</th>
+                                                <th>Contact Person</th>
+                                                <th>Surat Jalan</th>
+                                                <th>Recipient</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            $query = mysql_query("SELECT * FROM purchasing ORDER BY tanggal_order DESC, no_sms DESC");
+                                            $total = mysql_num_rows($query);
+
+                                            $no = 1;
+                                            while ($result = mysql_fetch_array($query)) {
+                                                echo"<tr>
+                                                    <td>$no</td>
+                                                    <td>$result[flag]</td>    
+                                                    <td>$result[tanggal_order]</td>    
+                                                    <td>$result[no_sms]</td>
+                                                    <td>$result[pemesan]</td>
+                                                    <td>$result[nama_proyek]</td>
+                                                    <td>$result[item]</td>
+                                                    <td>$result[qty]</td>
+                                                    <td>$result[satuan]</td>
+                                                    <td>$result[tanggal_proses]</td>    
+                                                    <td>$result[request]</td>
+                                                    <td>$result[no_po]</td>    
+                                                    <td>$result[vendor]</td>    
+                                                    <td>$result[estimasi]</td> 
+                                                    <td>$result[pengorder]</td>
+                                                    <td>$result[harga]</td>
+                                                    <td>$result[ppn]</td>
+                                                    <td>$result[total]</td>
+                                                    <td>$result[subtotal]</td>
+                                                    <td>$result[tanggal_tempo]</td>
+                                                    <td>$result[tanggal_kirim]</td>
+                                                    <td>$result[cp]</td>
+                                                    <td>$result[surat_jalan]</td>
+                                                    <td>$result[recipient]</td>
+                                                    </tr>";
+                                                $no++;
+                                            }
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <?php
