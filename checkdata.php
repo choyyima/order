@@ -122,51 +122,43 @@ if (isset($_GET['page'])) {
                         <div id="widget1container" class="panel-body collapse in">
                             <div class="box-body table-responsive">
                                 <div class="tab-pane active in" id="procces1">
-                                    <form action="<?php $_SERVER['PHP_SELF']; ?>" name="form" method="post" id="tab" >
+                                    <form action="<?php $_SERVER['PHP_SELF']; ?>" name="form" method="post" id="tab">
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label>SMS Number / No. SMS</label>
-                                                <input type="text" name="no_sms" class="form-control">
+                                                <input type="text" name="no_sms" class="form-control" required="">
                                             </div>
                                         </div>       
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label>Date Order / Tanggal Order</label>
-                                                <input type="date" name="tanggal_order" value="<?php echo date("Y-m-d"); ?>" class="form-control">
+                                                <input type="date" name="tanggal_order" value="<?php echo date("Y-m-d"); ?>" class="form-control" required="">
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label>Time / Jam SMS</label>
-                                                <input type="text" name="jam_sms" class="form-control">
+                                                <input type="text" name="jam_sms" class="form-control" required="">
                                             </div>
                                         </div>                                     
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label>Buyer / Pemesan</label>
-                                                <input type="text" name="pemesan" class="form-control">
+                                                <input type="text" name="pemesan" class="form-control" required="">
                                             </div>
                                         </div>                                    
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label>Project Name / Nama Proyek</label>
-                                                <input type="text" name="nama_proyek" value="" class="form-control">
+                                                <input type="text" name="nama_proyek" value="" class="form-control" required="">
                                             </div>
                                         </div>
-
-                                        <!--                                        <div class="col-lg-4">                                        
-                                                                                    <div class="form-group">
-                                                                                        <label>Date Process / Tanggal Proses</label>
-                                        <?php $date = new DateTime('+1 day'); ?>
-                                                                                        <input type="date" name="proses" value="<?php echo $date->format('Y-m-d') ?>" class="form-control">
-                                                                                    </div>
-                                                                                </div>-->
                                         <div class="col-sm-12 col-md-12">
                                             <div class="panel panel-default" style="border-color: #337ab7;">
                                                 <a href="#widget1container" class="panel-heading" data-toggle="collapse" style="background: #337ab7; border-color: #337ab7; color: white;"> Order Detail / Daftar Pesanan</a>
                                                 <div id="widget1container" class="panel-body collapse in">
                                                     <button class="btn btn-primary" id="add" type="button" ><span class="fa fa-plus"></span> </button> 
-                                                    <button class="btn btn-danger" id="delete" type="button" ><span class="fa fa-minus"></span></button>
+                                                    <button class="btn btn-danger" id="delete" type="button" ><span class="fa fa-trash-o"></span></button>
                                                     <table class="table table-bordered table-striped">
                                                         <thead>
                                                             <tr>
@@ -179,9 +171,9 @@ if (isset($_GET['page'])) {
                                                         <tbody id="addProduct">
                                                             <tr id="first" style="display:none">
                                                                 <td><input type="checkbox" class="checkbox"/></td>
-                                                                <td><input name="item[]" type="text" class="form-control"/></td>
-                                                                <td><input name="qty[]"  type="text" class="form-control col-lg-4" /></td>
-                                                                <td><input name="unit[]" type="text" class="form-control" /></td>
+                                                                <td><input name="item[]" type="text" class="form-control" required=""/></td>
+                                                                <td><input name="qty[]"  type="text" class="form-control col-lg-4" required=""</td>
+                                                                <td><input name="unit[]" type="text" class="form-control" required=""/></td>
                                                             </tr>
                                                             <tr id="empty"><td colspan="5" class="sys_align_center" >No Data / Tidak ada data</td></tr>
                                                         </tbody>
@@ -197,7 +189,7 @@ if (isset($_GET['page'])) {
                                                         <div class="col-lg-4">
                                                             <div class="form-group">
                                                                 <label></label>
-                                                                <div class="form-inline"><input type="radio" id="request" name="radioreq" value="BL"> Beli Dilapangan</div>
+                                                                <div class="form-inline"><input type="radio" id="request" name="radioreq" value="Beli dilapangan"> Beli Dilapangan</div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -219,12 +211,33 @@ if (isset($_GET['page'])) {
                                         </div>
                                         <div class="col-lg-12">    
                                             <div class="form-group">
-                                                <button class="btn btn-primary" name="saveadd" type="submit"> Submit</button>
+                                                <!--<a href="#myModal" class="btn btn-primary" data-toggle="modal"> Submit</a>-->
+                                                <button type="submit" onClick="return confirm('Are you sure to submit the data? You will not allowed to edit the submitted data later');" class="btn btn-primary" name="saveadd">Submit</button>
                                                 <a href="./index.php?pic=checkdata&page=view" class="btn btn-default" > Back</a>
                                                 <input type="hidden" name="counter" id="counter">
                                                 <input type="hidden" name="reqdata" id="reqdata">
                                             </div>
                                         </div>
+
+
+                                        <!--                                        <div class="modal small fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                                                    <div class="modal-dialog">
+                                                                                        <div class="modal-content">
+                                                                                            <div class="modal-header">
+                                                                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                                                                                                <h3 id="myModalLabel">Submit Confirmation</h3>
+                                                                                            </div>
+                                                                                            <div class="modal-body">
+                                                                                                onClick="return confirm('Are you sure to submit the data? You will not allowed to edit the submitted data later');"
+                                                                                                <p class="error-text"><i class="fa fa-warning modal-icon"></i>Are you sure to submit the data?<br> You will not allowed to edit the submitted data later</p>
+                                                                                            </div>
+                                                                                            <div class="modal-footer">
+                                                                                                <button class="btn btn-default" data-dismiss="modal" type="submit" aria-hidden="true">No</button>
+                                                                                                <a class="btn btn-danger" data-dismiss="modal" name="saveadd" type="submit">Yes</a>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>-->
                                     </form>
                                 </div>
                             </div>
@@ -282,7 +295,8 @@ if (isset($_GET['page'])) {
                             . "`createdby`='$get[uName]', "
                             . "`created`='$datenow' ";
 
-//                    echo $sql;die();
+                    echo $sql;
+                    die();
                     $resultq = mysql_query($sql);
                     $newid = mysql_insert_id();
                 }
@@ -1008,43 +1022,40 @@ if (isset($_GET['page'])) {
                 .hr{
                     border: 1px solid #101010;
                 }
+                .table > thead > tr > th{
+                    border: 1px solid black;
+                }
 
-                .tabel{
-                    border: 1px solid #101010;
-                }
-                .tabeltr {
-                    border: 1px solid #101010;
-                }
             </style>
-            <div class="main-content well-a " id="print">
-                <div class="row padding-top">
-                    <div class="col-md-10 col-md-offset-1">
+            <div class="main-content" id="print">
+                <div class="row">
+                    <div class="col-md-11 col-offset-1">
                         <div class="row">
                             <div class="col-lg-12 text-center">
-                                <h4><span class="fa fa-building"></span> Procurement Information Center</h4>
-                                <h5 class="text-center">Permintaan Pembelian Bahan</h5><p class="text-center text-sm text-primary">via SMS center 0816.1511.6666</p>
+                                <h5><span class="fa fa-building"></span> Procurement Information Center</h5>
+                                <h6 class="text-center">Permintaan Pembelian Bahan</h6><p class="text-center text-sm text-primary">via SMS center 0816.1511.6666</p>
                                 <div class="hr"></div>
                             </div>
                             <div class="pull-left unstyled col-sm-6 col-md-6">
-                                <p><strong>Pemesan : </strong><?php echo $rows['pemesan']; ?></p>
-                                <p><strong>Tanggal : </strong><?php echo $rows['pesan']; ?></p>     
+                                <p class="text-sm"><strong>Pemesan : </strong><?php echo $rows['pemesan']; ?></p>
+                                <p class="text-sm"><strong>Tanggal : </strong><?php echo $rows['pesan']; ?></p>     
                             </div>
                             <div style="text-align: right;" class="pull-right unstyled col-sm-6 col-md-6">
-                                <p><strong>Jam SMS : </strong><?php echo $rows['jam_sms']; ?></p>
-                                <p><strong>No. SMS : </strong><?php echo $rows['no_sms']; ?></p>    
+                                <p class="text-sm"><strong>Jam SMS : </strong><?php echo $rows['jam_sms']; ?></p>
+                                <p class="text-sm"><strong>No. SMS : </strong><?php echo $rows['no_sms']; ?></p>    
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-lg-12">
-                                <table class="tabel table table-bordered table-striped">
+                                <table style="border: 1px solid black;" class="table">
                                     <thead>
-                                        <tr class="tabeltr danger">
-                                            <th>Pesanan</th>
+                                        <tr>
+                                            <th class="text-sm">Pesanan</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td><p>Permintaan Material Proyek <strong><?php echo $rows['nama_proyek']; ?></strong>: <?php echo $rows['orderan']; ?><br>Request <?php echo $rows['request']; ?>, Catatan (<?php echo $rows['notes']; ?>)  </p></td>
+                                            <td><p class="text-justify text-sm">Permintaan Material Proyek <strong><?php echo $rows['nama_proyek']; ?></strong>: <?php echo $rows['orderan']; ?><br>Request <?php echo $rows['request']; ?>, Catatan (<?php echo $rows['notes']; ?>)  </p></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -1053,12 +1064,12 @@ if (isset($_GET['page'])) {
 
                         <div class="row">
                             <div class="pull-left unstyled col-sm-6 col-md-6">
-                                <p>Diterima,</p><br/>
-                                <p>(Ningsih)<br/><p class="text-sm"><i>Operator</i></p></p>     
+                                <p class="text-sm">Diterima,</p><br/>
+                                <p class="text-sm">(<?php echo $get['uName']; ?>)<br/><p class="text-sm"><i>Operator</i></p></p>     
                             </div>
                             <div style="text-align: right;" class="pull-right unstyled col-sm-6 col-md-6">
-                                <p>Diarsip,</p><br/>
-                                <p>(_______)<br/><p class="text-sm"><i>Pembelian</i></p></p> 
+                                <p class="text-sm">Diarsip,</p><br/>
+                                <p class="text-sm">(_______)<br/><p class="text-sm"><i>Pembelian</i></p></p> 
                             </div>
                         </div>
                     </div>

@@ -49,13 +49,7 @@ if (empty($get['uName'])) {
                 color: #fff;
             }
         </style>
-        <script type="text/javascript">
-            $(function () {
-                var uls = $('.sidebar-nav > ul > *').clone();
-                uls.addClass('visible-xs');
-                $('#main-menu').append(uls.clone());
-            });
-        </script>
+
         <div class="navbar navbar-default" role="navigation">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
@@ -64,16 +58,18 @@ if (empty($get['uName'])) {
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="" href="checkdata.php"><span class="navbar-brand"><span class="fa fa-archive"></span> Procurement  Information Center</span></a></div>
+                <a class="" href="index.php"><span class="navbar-brand"><span class="fa fa-paper-plane"></span> Procurement  Information Center</span></a></div>
 
             <div class="navbar-collapse collapse" style="height: 1px;">
                 <ul id="main-menu" class="nav navbar-nav navbar-right">
                     <li class="dropdown hidden-xs">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <span class="glyphicon glyphicon-user padding-right-small" style="position:relative;top: 3px;"></span> <?php echo $get['uName']; ?>
+                            <i class="fa fa-caret-down"></i>
                         </a>
                     </li>
                 </ul>
+
             </div>
         </div>
 
@@ -97,7 +93,7 @@ if (empty($get['uName'])) {
                 </li>
                 <li><a href="#" data-target=".accounts-menu" class="nav-header collapsed" data-toggle="collapse"><i class="fa fa-fw fa-briefcase "></i> Account <i class="fa fa-collapse"></i></a></li>
                 <li>
-                    <ul class="accounts-menu nav nav-list collapse">
+                    <ul class="accounts-menu nav nav-list collapse in">
                         <li ><a href="reset-password.php"><span class="fa fa-caret-right"></span> Reset Password</a></li>
                         <li ><a href="sign-out.php"><span class="fa fa-caret-right"></span> Logout</a></li> 
                     </ul>
@@ -134,7 +130,7 @@ if (empty($get['uName'])) {
             ?>
         </div>
 
-        <script src="lib/bootstrap/js/bootstrap.js"></script>
+        <!--<script src="lib/bootstrap/js/bootstrap.js"></script>-->
         <script src="js/jquery-1.11.1.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/jquery.dataTables.min.js"></script>
@@ -154,8 +150,6 @@ if (empty($get['uName'])) {
 
                 $('[data-popover="true"]').popover({html: true});
 
-            });
-            $(function () {
                 var uls = $('.sidebar-nav > ul > *').clone();
                 uls.addClass('visible-xs');
                 $('#main-menu').append(uls.clone());
@@ -166,12 +160,12 @@ if (empty($get['uName'])) {
                 });
             });
 
-            $("[rel=tooltip]").tooltip();
-            $(function () {
-                $('.demo-cancel-click').click(function () {
-                    return false;
-                });
-            });
+//            $("[rel=tooltip]").tooltip();
+//            $(function () {
+//                $('.demo-cancel-click').click(function () {
+//                    return false;
+//                });
+//            });
 
 
         </script>
