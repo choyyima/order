@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50614
 File Encoding         : 65001
 
-Date: 2016-05-25 17:01:46
+Date: 2016-05-27 13:52:28
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -52,17 +52,26 @@ CREATE TABLE `employee` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_jabatan` int(11) NOT NULL,
   `nama` varchar(150) NOT NULL,
-  `jabatan` varchar(100) NOT NULL,
   `no_hp` varchar(100) NOT NULL,
   `status` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of employee
 -- ----------------------------
-INSERT INTO `employee` VALUES ('1', '1', 'coba', '1', '08212312313', '1');
-INSERT INTO `employee` VALUES ('2', '1', 'Kitaro', '1', '08212312313', '1');
+INSERT INTO `employee` VALUES ('1', '1', 'admin', '089677006638', '1');
+INSERT INTO `employee` VALUES ('2', '2', 'direksi', '08212312313', '1');
+INSERT INTO `employee` VALUES ('3', '3', 'purchasing', '', '1');
+INSERT INTO `employee` VALUES ('4', '5', 'ulfah', '', '1');
+INSERT INTO `employee` VALUES ('6', '4', 'yudi', '08153090854', '1');
+INSERT INTO `employee` VALUES ('7', '4', 'hamka', '081553090846', '1');
+INSERT INTO `employee` VALUES ('8', '4', 'ali', '081615002004', '1');
+INSERT INTO `employee` VALUES ('9', '4', 'david', '081615002003', '1');
+INSERT INTO `employee` VALUES ('10', '4', 'setiaadji', '081615002002', '1');
+INSERT INTO `employee` VALUES ('11', '4', 'yahnny', '081615002001', '1');
+INSERT INTO `employee` VALUES ('12', '2', 'lani', '', '1');
+INSERT INTO `employee` VALUES ('13', '1', 'yesi', '', '1');
 
 -- ----------------------------
 -- Table structure for `flag`
@@ -105,15 +114,16 @@ CREATE TABLE `jabatan` (
   `nama` varchar(50) NOT NULL,
   `status` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of jabatan
 -- ----------------------------
-INSERT INTO `jabatan` VALUES ('1', 'direksi', '1');
-INSERT INTO `jabatan` VALUES ('2', 'reception', '1');
+INSERT INTO `jabatan` VALUES ('1', 'admin', '1');
+INSERT INTO `jabatan` VALUES ('2', 'direksi', '1');
 INSERT INTO `jabatan` VALUES ('3', 'purchasing', '1');
 INSERT INTO `jabatan` VALUES ('4', 'PM', '1');
+INSERT INTO `jabatan` VALUES ('5', 'reception', '1');
 
 -- ----------------------------
 -- Table structure for `order`
@@ -830,10 +840,20 @@ CREATE TABLE `user` (
   `status` enum('active','inactive') NOT NULL,
   `last_login` datetime NOT NULL,
   PRIMARY KEY (`usrid`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', '0', 'admin', 'admin', 'yes', 'active', '0000-00-00 00:00:00');
-INSERT INTO `user` VALUES ('2', '0', 'direksi', 'direksi', 'yes', 'active', '2016-04-22 11:07:44');
+INSERT INTO `user` VALUES ('1', '1', 'admin', 'admin', 'yes', 'active', '0000-00-00 00:00:00');
+INSERT INTO `user` VALUES ('2', '2', 'direksi', 'direksi', 'yes', 'active', '0000-00-00 00:00:00');
+INSERT INTO `user` VALUES ('3', '4', 'ulfah', 'ulfah', 'yes', 'active', '0000-00-00 00:00:00');
+INSERT INTO `user` VALUES ('4', '3', 'purchasing', '0315051010', 'yes', 'active', '0000-00-00 00:00:00');
+INSERT INTO `user` VALUES ('5', '6', 'yudi', '08153090854', 'yes', 'active', '2016-04-14 01:03:19');
+INSERT INTO `user` VALUES ('6', '7', 'hamka', '081553090846', 'yes', 'active', '0000-00-00 00:00:00');
+INSERT INTO `user` VALUES ('7', '8', 'ali', '081615002004', 'yes', 'active', '0000-00-00 00:00:00');
+INSERT INTO `user` VALUES ('8', '9', 'david', '081615002003', 'yes', 'active', '0000-00-00 00:00:00');
+INSERT INTO `user` VALUES ('9', '10', 'setiaadji', '081615002002', 'yes', 'active', '2016-04-13 22:24:34');
+INSERT INTO `user` VALUES ('10', '11', 'yahnny', '081615002001', 'yes', 'active', '2016-04-17 20:30:55');
+INSERT INTO `user` VALUES ('11', '12', 'lani', 'lani', 'yes', 'active', '0000-00-00 00:00:00');
+INSERT INTO `user` VALUES ('12', '13', 'yesi', 'yesi', 'yes', 'active', '0000-00-00 00:00:00');

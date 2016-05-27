@@ -42,7 +42,7 @@ if (isset($_GET['page'])) {
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $query = mysql_query("SELECT e.id, e.nama, e.no_hp, j.nama jabatan FROM employee e left outer join jabatan j on e.id_jabatan = j.id limit 0,5");
+                                        $query = mysql_query("SELECT e.id, e.nama, e.no_hp, j.nama jabatan FROM employee e left outer join jabatan j on e.id_jabatan = j.id");
                                         $total = mysql_num_rows($query);
 
                                         $no = 1;
@@ -135,6 +135,15 @@ if (isset($_GET['page'])) {
                     . "`no_hp`='$no_hp'";
 
             $result = mysql_query($sql);
+            $getIDemp = mysql_insert_id();
+            
+            $sql_user = "insert into user set "
+                    . "username= '$nama', "
+                    . "password= '$nama', "
+                    . "oauth='yes', "
+                    . "status='active', "
+                    . "id_employee='$getIDemp'";
+            $resultuser = mysql_query($sql_user);
 
             if ($result) {
                 echo "<script>alert('Berhasil ditambah.')</script>";
