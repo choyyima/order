@@ -1,7 +1,6 @@
 <?php
 session_start();
 include "config.php";
-include './function.php';
 $get = $_SESSION;
 if (empty($get['uName'])) {
     header('Location: index.html');
@@ -122,6 +121,8 @@ if (empty($get['uName'])) {
                     include 'users.php';
                 } elseif ($g == 'report') {
                     include 'report.php';
+                } elseif ($g == 'download') {
+                    include 'download.php';
                 }
             } else {
                 echo "<script>javascript:window.location.replace('index.php?pic=checkdata&page=view');</script>";

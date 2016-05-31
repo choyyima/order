@@ -1,5 +1,6 @@
 <?php
 include "config.php";
+include "function.php";
 if (isset($_GET['page'])) {
     if ($_GET['page'] === 'view') {
         ?>
@@ -18,7 +19,7 @@ if (isset($_GET['page'])) {
                         ?>
                         <div class="btn-toolbar list-toolbar">
                             <a href="index.php?pic=checkdata&page=create" class="btn btn-success"><span class="fa fa-plus"></span> Tambah</a> 
-                            <a href="index.php?pic=checkdata&page=download" class="btn btn-warning"><span class="fa fa-download"></span> Download</a> 
+                            <a href="download.php" class="btn btn-warning"><span class="fa fa-download"></span> Download</a> 
                         </div>
                     <?php } ?>
                     <div class="panel panel-default">
@@ -493,7 +494,7 @@ if (isset($_GET['page'])) {
                                                                             <td align=center><?php echo $arrPO['qty']; ?><input type="hidden" id="qty" value="<?php echo $arrPO['qty']; ?>"></td>
                                                                             <td align=center><?php echo $arrPO['satuan']; ?></td>
                                                                             <td><input type="text" onkeyup="formatangka(this);
-                                                                                                    autoComplete(this);" value="<?php echo $arrPO['harga']; ?>" id="harga" class="radio1 form-control" name="harga" style="text-align: right" placeholder="0"></td>
+                                                                                    autoComplete(this);" value="<?php echo $arrPO['harga']; ?>" id="harga" class="radio1 form-control" name="harga" style="text-align: right" placeholder="0"></td>
                                                                             <td><select name="ppn" id="ppn" class="form-control">
                                                                                     <option value="0">-Choose-</option>
                                                                                     <option value="Yes">Yes</option>
@@ -1084,95 +1085,5 @@ if (isset($_GET['page'])) {
                 </div>
             </div>
             <?php
-        } elseif ($_GET['page'] === "download") {
-            ?> 
-            <div class="header">
-                <h1 class="page-title">Download Data</h1>
-                <ul class="breadcrumb">
-                    <li>Home </li>
-                    <li class="active">Download Data</li>
-                </ul>
-            </div>
-            <div class="main-content">
-                <div class="row padding-top">
-                    <div class="col-lg-12">
-                        <div class="panel panel-default">
-                            <a href="#widget1container" class="panel-heading" data-toggle="collapse"> Check Data</a>
-                            <div id="widget1container" class="panel-body collapse in">
-                                <div class="box-body table-responsive">
-                                    <table id="data" class="table table-bordered table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th width="30px">No.</th>
-                                                <th>Flag</th>
-                                                <th width="80px">Date Order</th>
-                                                <th>SMS No. </th>
-                                                <th>Buyer</th>
-                                                <th>Project</th>
-                                                <th>Item</th>
-                                                <th>Qty</th>
-                                                <th>Unit</th>
-                                                <th width="80px">Date Process</th>
-                                                <th>Request</th>
-                                                <th>PO No. </th>
-                                                <th>Vendor</th>
-                                                <th>Estimasi</th>
-                                                <th>Pengorder</th>
-                                                <th>Harga</th>
-                                                <th>PPN</th>
-                                                <th>Total</th>
-                                                <th>Subtotal</th>
-                                                <th>Tanggal Tempo</th>
-                                                <th>Tanggal Kirim</th>
-                                                <th>Contact Person</th>
-                                                <th>Surat Jalan</th>
-                                                <th>Recipient</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php
-                                            $query = mysql_query("SELECT * FROM purchasing ORDER BY tanggal_order DESC, no_sms DESC");
-                                            $total = mysql_num_rows($query);
-
-                                            $no = 1;
-                                            while ($result = mysql_fetch_array($query)) {
-                                                echo"<tr>
-                                                    <td>$no</td>
-                                                    <td>$result[flag]</td>    
-                                                    <td>$result[tanggal_order]</td>    
-                                                    <td>$result[no_sms]</td>
-                                                    <td>$result[pemesan]</td>
-                                                    <td>$result[nama_proyek]</td>
-                                                    <td>$result[item]</td>
-                                                    <td>$result[qty]</td>
-                                                    <td>$result[satuan]</td>
-                                                    <td>$result[tanggal_proses]</td>    
-                                                    <td>$result[request]</td>
-                                                    <td>$result[no_po]</td>    
-                                                    <td>$result[vendor]</td>    
-                                                    <td>$result[estimasi]</td> 
-                                                    <td>$result[pengorder]</td>
-                                                    <td>$result[harga]</td>
-                                                    <td>$result[ppn]</td>
-                                                    <td>$result[total]</td>
-                                                    <td>$result[subtotal]</td>
-                                                    <td>$result[tanggal_tempo]</td>
-                                                    <td>$result[tanggal_kirim]</td>
-                                                    <td>$result[cp]</td>
-                                                    <td>$result[surat_jalan]</td>
-                                                    <td>$result[recipient]</td>
-                                                    </tr>";
-                                                $no++;
-                                            }
-                                            ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <?php
-        }
+        } 
     }    

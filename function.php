@@ -1,16 +1,28 @@
 <?php
-include './config.php';
-function kodesms() {
-    $query = mysql_query("SELECT no_sms, (substr(no_sms,4,2) + 1) as nosms FROM `order` order by id desc limit 1 ");
-    $row = mysql_fetch_array($query);
+//include './config.php';
 
-    $depan = substr($row['no_sms'], 0, 2);
-//    $belakang = getMo($row['no_sms']);
-//    if ($belakang == '') {
-//        $bel = '';
-//    } else {
-//        $bel = $belakang;
-//    }
-//    return $depan . '-' . $bel;
-    return $depan;
+function day_count($month = '', $year = '') {
+    if (empty($month)) {
+        $month = date('m');
+    }
+    if (empty($year)) {
+        $year = date('Y');
+    }
+    return date('d', mktime(0, 0, 0, $month + 1, 0, $year));
+}
+
+function begin_date_month() {
+    $d1 = "01";
+    $m1 = Date('m');
+    $y1 = Date('Y');
+    $date1 = $y1 . "-" . $m1 . "-" . $d1;
+    return $date1;
+}
+
+function last_date_month() {
+    $d2 = day_count();
+    $m2 = Date('m');
+    $y2 = Date('Y');
+    $date2 = $y2 . "-" . $m2 . "-" . $d2;
+    return $date2;
 }
